@@ -24,3 +24,21 @@ export const getRelease = async (
     })
     return response.data
 }
+
+export const uploadFile = async (file: File, type: 'trailer' | 'card' | 'logo'): Promise<string> => {
+    const formData = new FormData()
+    formData.append('file', file)
+
+    const response = await api.post(`/api/upload?type=${type}`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    })
+
+    return response.data.path
+}
+
+export const createFilm = async (film: Film): Promise<{ id: number }> => {
+    const response = await api.post('/api/add', film)
+    return response.data
+}
