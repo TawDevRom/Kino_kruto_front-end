@@ -3,12 +3,25 @@ import type { Film } from "../../types";
 import { getFilms } from "../../api";
 import FilmCard from "../../components/FilmCard/FilmCard";
 
+
+// убрат
+//  ||
+//  \/
+import Logo from "../../components/Header/Logo";
+import Nav from "../../components/Header/Nav";
+
+
+
 export default function Home() {
     const [films, setFilms] = useState<Film[]>([])
     const [selectedFilm, setSelectedFilm] = useState<Film | null>(null)
 
-    useEffect(() => { getFilms().then(setFilms) }, [])
+    useEffect(() => { getFilms().then(data => {
+        setFilms(data.filter(film => film.card?.path))
+    }) }, [])
 
+
+    
     const handleCardClick = (film: Film) => {
         if (selectedFilm?.id === film.id) {
             setSelectedFilm(null)
@@ -19,6 +32,8 @@ export default function Home() {
 
     return (
         <div className=" bg-black min-h-screen text-white p-8">
+            <Logo />
+            <Nav />
             <div className="grid grid-cols-4 gap-4">
                 {films.map(film => (
                     <FilmCard

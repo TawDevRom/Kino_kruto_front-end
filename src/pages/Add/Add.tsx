@@ -38,7 +38,7 @@ export default function Add() {
                 is_serial: isSerial,
                 description: description.trim() || null,
                 trailer: { id: null, path: trailerPath },
-                card: { id: null, path: trailerPath, is_horizontal: isHorizontal },
+                card: { id: null, path: cardPath, is_horizontal: isHorizontal },
                 logo: { id: null, path: logoPath },
             }
 
@@ -52,19 +52,75 @@ export default function Add() {
         }
     }
     return (
-        <div className=" min-h-screen bg-black text-white">
-            <div className="mx-auto max-w-3xl px-6 py-10">
+        <div className="flex justify-center items-center min-h-screen bg-black text-white py-4">
+            <div className="rounded-xl mx-auto max-w-3xl p-6 border border-gray-800 bg-gray-900/40">
                 <h1 className="mb-8 text-2xl font-semibold">Добавить фильм</h1>
                 <div className="flex flex-col gap-6">
-                    <label className="flex flex-col gap-6">
+                    {/* Название */}
+                    <label className="flex flex-col gap-3">
                         <span className="text-sm text-gray-400">Название</span>
                         <input
                             value={title}
                             onChange={(e) => setTitle(e.target.value)}
                             placeholder="Например: Интерстеллар"
                             className="rounded-lg border border-gray-700 bg-gray-900 px-4 py-3 outline-none focus:border-gray-400"
-                            />
+                        />
                     </label>
+
+                    {/* Описание */}
+                    <label className="flex flex-col gap-2">
+                        <span className="text-sm text-gray-400">Название</span>
+                        <textarea
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            rows={4}
+                            className="resize-none rounded-lg border border-gray-700 bg-gray-900 px-4 py-3 outline-none focus:border-gray-400"
+                        />
+                    </label>
+
+                    {/* чекбоксы */}
+                    <div className="flex gap-6">
+                        <label className="flex items-center gap-2">
+                            <input type="checkbox" checked={isSerial} onChange={(e) => setIsSerial(e.target.checked)}/>
+                            <span className="text-sm">Сериал</span>
+                        </label>
+                        <label className="flex items-center gap-2">
+                            <input type="checkbox" checked={isHorizontal} onChange={(e) => setIsHorizontal(e.target.checked)}/>
+                            <span className="text-sm">Горизонтальный постер</span>
+                        </label>
+                    </div>
+                    {/* Файлы */}
+                    <div className="grid grid-cols-3 gap-3">
+                        <label className="group flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-gray-700 bg-gray-900/50 px-4 py-6 text-center transition-colors hover:border-gray-500 hover:bg-gray-900">
+                            <span className="text-sm font-medium text-gray-300">Постер (Изображение)</span>
+                            <span className={`max-w-full truncate text-xs ${cardFile ? 'text-green-400' : 'text-gray-500'}`}>{cardFile ? cardFile.name : 'Нажми, чтобы выбрать изображеник'}</span>
+                            <input type="file" accept="image/*" className="hidden" onChange={(e) => setCardFile(e.target.files?.[0] ?? null)} />
+                        </label>
+                        <label className="group flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-gray-700 bg-gray-900/50 px-4 py-6 text-center transition-colors hover:border-gray-500 hover:bg-gray-900">
+                            <span className="text-sm font-medium text-gray-300">Лого (Изображение)</span>
+                            <span className={`max-w-full truncate text-xs ${logoFile ? 'text-green-400' : 'text-gray-500'}`}>{logoFile ? logoFile.name : 'Нажми, чтобы выбрать изображеник'}</span>
+                            <input type="file" accept="image/*" className="hidden" onChange={(e) => setLogoFile(e.target.files?.[0] ?? null)} />
+                        </label>
+                        <label className="group flex cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border-2 border-dashed border-gray-700 bg-gray-900/50 px-4 py-6 text-center transition-colors hover:border-gray-500 hover:bg-gray-900">
+                            <span className="text-sm font-medium text-gray-300">Трейлер (Видео)</span>
+                            <span className={`max-w-full truncate text-xs ${trailerFile ? 'text-green-400' : 'text-gray-500'}`}>{trailerFile ? trailerFile.name : 'Нажми, чтобы выбрать видео'}</span>
+                            <input type="file" accept="video/*" className="hidden" onChange={(e) => setTrailerFile(e.target.files?.[0] ?? null)} />
+                        </label>
+                    </div>
+
+                    {/* Баннеры */}
+                    {error && <div className="rounded-lg bg-red-500/15 px-4 py-3 text-sm text-red-400">{error}</div>}
+                    {success && <div className="rounded-lg bg-green-500/15 px-4 py-3 text-sm text-green-400">{success}</div>}
+
+                    {/* Кнопка */}
+
+                    <button
+                        onClick={handleSubmit}
+                        disabled={loading}
+                        className=" rounded-lg bg-white px-6 py-4 font-medium text-black hover:bg-gray-200 disabled:opacity-50">
+                            {loading ? 'Сохраняю...' : 'Добавить фильм'}
+                    </button>
+
                 </div>
             </div>
         </div>
