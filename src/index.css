@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
-/* @theme {
-    --text-2xs: 0.3rem;
-} */
+@theme {
+    --color-accent: #da5bcb;
+    --color-title: #f0f0f0;
+    --color-error: #F09595;
+    --color-textColor: #898989;
+    --color-inputColor: #262626;
+    --color-cardColor: #1b1b1b;
+    --color-pageColor: #0f0f0f;
+    --color-stroke: #262626;
+}
